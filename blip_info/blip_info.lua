@@ -33,15 +33,24 @@ function SetBlipInfoTitle(blip, title, rockstarVerified)
 end
 
 function SetBlipInfoImage(blip, dict, tex)
-    local data = ensureBlipInfo(blip)
-    data.dict = dict or ""
-    data.tex = tex or ""
+    local count = 50
+    repeat
+        count -= 1
+        RequestStreamedTextureDict(dict)
+        Wait(0)
+    until HasStreamedTextureDictLoaded(dict) or count == 0
+    if HasStreamedTextureDictLoaded(dict) then
+        print('Loaded:', dict, tex)
+        local data = ensureBlipInfo(blip)
+        data.dict = dict or ""
+        data.tex = tex or ""
+    end
 end
 
 function SetBlipInfoEconomy(blip, rp, money)
     local data = ensureBlipInfo(blip)
-    data.money = tostring(money) or ""
-    data.rp = tostring(rp) or ""
+    data.money = tostring(money) or nil
+    data.rp = tostring(rp) or nil
 end
 
 function SetBlipInfo(blip, info)
@@ -79,17 +88,17 @@ end
 
 local Display = 1
 function UpdateDisplay()
-    if PushScaleformMovieFunctionN("DISPLAY_DATA_SLOT") then
-        PushScaleformMovieFunctionParameterInt(Display)
-        PopScaleformMovieFunctionVoid()
+    if BeginScaleformMovieMethodOnFrontend("DISPLAY_DATA_SLOT") then
+        ScaleformMovieMethodAddParamInt(Display)
+        EndScaleformMovieMethod()
     end
 end
 
 function SetColumnState(column, state)
-    if PushScaleformMovieFunctionN("SHOW_COLUMN") then
-        PushScaleformMovieFunctionParameterInt(column)
-        PushScaleformMovieFunctionParameterBool(state)
-        PopScaleformMovieFunctionVoid()
+    if BeginScaleformMovieMethodOnFrontend("SHOW_COLUMN") then
+        ScaleformMovieMethodAddParamInt(column)
+        ScaleformMovieMethodAddParamBool(state)
+        EndScaleformMovieMethod()
     end
 end
 
@@ -103,45 +112,45 @@ function func_36(fParam0)
 end
 
 function SetIcon(index, title, text, icon, iconColor, completed)
-    if PushScaleformMovieFunctionN("SET_DATA_SLOT") then
-        PushScaleformMovieFunctionParameterInt(Display)
-        PushScaleformMovieFunctionParameterInt(index)
-        PushScaleformMovieFunctionParameterInt(65)
-        PushScaleformMovieFunctionParameterInt(3)
-        PushScaleformMovieFunctionParameterInt(2)
-        PushScaleformMovieFunctionParameterInt(0)
-        PushScaleformMovieFunctionParameterInt(1)
+    if BeginScaleformMovieMethodOnFrontend("SET_DATA_SLOT") then
+        ScaleformMovieMethodAddParamInt(Display)
+        ScaleformMovieMethodAddParamInt(index)
+        ScaleformMovieMethodAddParamInt(65)
+        ScaleformMovieMethodAddParamInt(3)
+        ScaleformMovieMethodAddParamInt(2)
+        ScaleformMovieMethodAddParamInt(0)
+        ScaleformMovieMethodAddParamInt(1)
         func_36(title)
         func_36(text)
-        PushScaleformMovieFunctionParameterInt(icon)
-        PushScaleformMovieFunctionParameterInt(iconColor)
-        PushScaleformMovieFunctionParameterBool(completed)
-        PopScaleformMovieFunctionVoid()
+        ScaleformMovieMethodAddParamInt(icon)
+        ScaleformMovieMethodAddParamInt(iconColor)
+        ScaleformMovieMethodAddParamBool(completed)
+        EndScaleformMovieMethod()
     end
 end
 
 function SetText(index, title, text, textType)
-    if PushScaleformMovieFunctionN("SET_DATA_SLOT") then
-        PushScaleformMovieFunctionParameterInt(Display)
-        PushScaleformMovieFunctionParameterInt(index)
-        PushScaleformMovieFunctionParameterInt(65)
-        PushScaleformMovieFunctionParameterInt(3)
-        PushScaleformMovieFunctionParameterInt(textType or 0)
-        PushScaleformMovieFunctionParameterInt(0)
-        PushScaleformMovieFunctionParameterInt(0)
+    if BeginScaleformMovieMethodOnFrontend("SET_DATA_SLOT") then
+        ScaleformMovieMethodAddParamInt(Display)
+        ScaleformMovieMethodAddParamInt(index)
+        ScaleformMovieMethodAddParamInt(65)
+        ScaleformMovieMethodAddParamInt(3)
+        ScaleformMovieMethodAddParamInt(textType or 0)
+        ScaleformMovieMethodAddParamInt(0)
+        ScaleformMovieMethodAddParamInt(0)
         func_36(title)
         func_36(text)
-        PopScaleformMovieFunctionVoid()
+        EndScaleformMovieMethod()
     end
 end
 
 local _labels = 0
 local _entries = 0
 function ClearDisplay()
-    if PushScaleformMovieFunctionN("SET_DATA_SLOT_EMPTY") then
-        PushScaleformMovieFunctionParameterInt(Display)
+    if BeginScaleformMovieMethodOnFrontend("SET_DATA_SLOT_EMPTY") then
+        ScaleformMovieMethodAddParamInt(Display)
     end
-    PopScaleformMovieFunctionVoid()
+    EndScaleformMovieMethod()
     _labels = 0
     _entries = 0
 end
@@ -154,27 +163,27 @@ function _label(text)
 end
 
 function SetTitle(title, rockstarVerified, rp, money, dict, tex)
-    if PushScaleformMovieFunctionN("SET_COLUMN_TITLE") then
-        PushScaleformMovieFunctionParameterInt(Display)
+    if BeginScaleformMovieMethodOnFrontend("SET_COLUMN_TITLE") then
+        ScaleformMovieMethodAddParamInt(Display)
         func_36("")
         func_36(_label(title))
-        PushScaleformMovieFunctionParameterInt(rockstarVerified)
+        ScaleformMovieMethodAddParamInt(rockstarVerified)
         PushScaleformMovieFunctionParameterString(dict)
         PushScaleformMovieFunctionParameterString(tex)
-        PushScaleformMovieFunctionParameterInt(0)
-        PushScaleformMovieFunctionParameterInt(0)
-        if rp == "" then
-            PushScaleformMovieFunctionParameterBool(0)
+        ScaleformMovieMethodAddParamInt(0)
+        ScaleformMovieMethodAddParamInt(0)
+        if not rp then
+            ScaleformMovieMethodAddParamBool(0)
         else
             func_36(_label(rp))
         end
-        if money == "" then
-            PushScaleformMovieFunctionParameterBool(0)
+        if not money then
+            ScaleformMovieMethodAddParamBool(0)
         else
             func_36(_label(money))
         end
     end
-    PopScaleformMovieFunctionVoid()
+    EndScaleformMovieMethod()
 end
 
 function AddText(title, desc, style)
@@ -187,19 +196,20 @@ function AddIcon(title, desc, icon, color, checked)
     _entries = _entries + 1
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     local current_blip = nil
     while true do
-        Wait(0)
-        if N_0x3bab9a4e4f2ff5c7() then
-            local blip = DisableBlipNameForVar()
-            if N_0x4167efe0527d706e() then
+        local sleep = 1000
+        if IsFrontendReadyForControl() then
+            sleep = 50
+            local blip = GetNewSelectedMissionCreatorBlip()
+            if IsHoveringOverMissionCreatorBlip() then
                 if DoesBlipExist(blip) then
                     if current_blip ~= blip then
                         current_blip = blip
                         if BLIP_INFO_DATA[blip] then
                             local data = ensureBlipInfo(blip)
-                            N_0xec9264727eec0f28()
+                            -- TakeControlOfFrontend() --? Not Needed?
                             ClearDisplay()
                             SetTitle(data.title, data.rockstarVerified, data.rp, data.money, data.dict, data.tex)
                             for _, info in next, data.info do
@@ -211,7 +221,7 @@ Citizen.CreateThread(function()
                             end
                             ShowDisplay(true)
                             UpdateDisplay()
-                            N_0x14621bb1df14e2b2()
+                            -- ReleaseControlOfFrontend() --? Not Needed?
                         else
                             ShowDisplay(false)
                         end
@@ -224,5 +234,33 @@ Citizen.CreateThread(function()
                 end
             end
         end
+        Wait(sleep)
     end
 end)
+
+
+--* Useage *--
+--[[
+    RegisterCommand('bliptest', function()
+        local blip = AddBlipForCoord(-1467.8853, 5416.2031, 23.602)
+        SetBlipSprite(blip, 809)
+        SetBlipDisplay(blip, 2)
+        SetBlipScale(blip, 1.0)
+        SetBlipAsShortRange(blip, false)
+        SetBlipColour(blip, 41)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentSubstringPlayerName('Test Blip')
+        EndTextCommandSetBlipName(blip)
+    
+        exports['blip_info']:ResetBlipInfo(blip)
+        -- exports['blip_info']:SetBlipInfo(blip, infoData)
+        exports['blip_info']:SetBlipInfoImage(blip, 'casino_suites', 'dealer')
+        exports['blip_info']:SetBlipInfoTitle(blip, 'Play Blackjack', true)
+        exports['blip_info']:SetBlipInfoEconomy(blip, '69', 'All the money!')
+        exports['blip_info']:AddBlipInfoName(blip, 'Created By', 'glitchdetector + ihyajb')
+        exports['blip_info']:AddBlipInfoIcon(blip, 'AddBlipInfoIcon', 'AddBlipInfoIcon', 18, 2, true)
+        -- exports['blip_info']:AddBlipInfoText(blip, 'This is a very long message that im kinda just seeing how far it can really go lol', '')
+        exports['blip_info']:AddBlipInfoHeader(blip, '')
+        exports['blip_info']:AddBlipInfoText(blip, "~c~The American military is scattered and broken. Occasionally they airdrop supplies or find other ways to get them into the quarantine zone. Sometimes they drop in small groups of soldiers instead.")
+    end)
+]]
