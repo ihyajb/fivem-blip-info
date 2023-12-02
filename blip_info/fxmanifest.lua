@@ -1,4 +1,5 @@
-resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
+fx_version 'cerulean'
+game 'gta5'
 
 name 'Blip Info Utility'
 author 'glitchdetector'
@@ -29,3 +30,5 @@ export 'AddBlipInfoText'
 export 'AddBlipInfoName'
 export 'AddBlipInfoHeader'
 export 'AddBlipInfoIcon'
+
+lua54 'yes'
