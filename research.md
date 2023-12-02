@@ -1,42 +1,3 @@
-# Natives
-
-## DisableBlipNameForVar()
-Possible new name: `_GET_SELECTED_MISSION_CREATOR_BLIP`
-
-Returns blip handle for mission creator blips only when they get selected on the pause menu map
-
-Returns a value once when selecting the blip (or changing blips via the legend), must be listened for every frame
-
-## N_0x4167efe0527d706e()
-Possible name: `_HAS_SELECTED_MISSION_CREATOR_BLIP`
-
-Returns true if hovering over a mission creator blip in the pause menu map
-
-## N_0x3bab9a4e4f2ff5c7()
-Possible name: `_IS_PAUSE_FRONTEND_VISIBLE`
-
-Returns true whenever pause menu is open
-
-Might have other criteria, but didn't seem to matter what page you had selected
-
-## N_0xec9264727eec0f28()
-Possible name: `_DISABLE_FRONTEND_INPUT`
-
-Disables the front-end input (already documented kinda?)
-
-Always used before changing frontend stuff
-
-Not actually required, but seems to make sure player doesn't interact with half-implemented front-ends.
-
-## N_0x14621bb1df14e2b2()
-Possible name: `_ENABLE_FRONTEND_INPUT`
-
-Re-enables the front-end input (already documented kinda?)
-
-Always used after changing frontend stuff
-
-Not actually required, but seems to make sure player doesn't interact with half-implemented front-ends.
-
 # Front-End Scaleform Movies
 ### Using `PushScaleformMovieFunctionN`
 These are all implying the use of the Blip Info popup front-end, `frontend = 65`, `layer = 1`
@@ -67,3 +28,38 @@ This function will show changes made to the front-end, changes are not shown unl
 `layer` parameter appears to be the front-end layer. `1` is always used, `0` appears to modify other HUD elements, such as the map legend.
 
 `show` parameter enables or disables the `layer`
+
+# Other Stuff
+## AddBlipInfoIcon Icon Number's
+
+    0 - Star
+    1 - 1 Skull
+    2 - Flag Icon (Race)
+    3 - Shield Icon
+    4 - 3 Skulls
+    5 - Blank
+    6 - Cassle Icon
+    7 - Blank
+    8 - Pacachute Icon
+    9 - Car Crash icon
+    10 - Flag With Car
+    11 - Flag with Person
+    12 - Flag with Bike
+    13 - Flag with Boat
+    14 - Flag with Plane
+    15 - Last Team Standing Icon
+    16 - Case Icon
+    17 - Heist Setup
+    18 - Heist 
+    19 - Flag with Ramp?
+    20 - Watch Icon?
+    21 - Wheel on fire?
+    22 - Money Icon on fire?
+    23 - Last Team Standing VS Icon?
+    24 - Flag with scope?
+    25 - Flag with gear?
+    26 - Crown Icon
+    27 - RC Car Icon with Timer
+    28 - F1 Icon
+    29 - Flag with Shield Icon
+    [30 - Infinity] - Flag with LS Car Meet Icon 
