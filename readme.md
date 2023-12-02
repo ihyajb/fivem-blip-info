@@ -58,7 +58,12 @@ Adds a line to the info popup, including a separator between this and the previo
 
 Adds a line to the info popup, including a blip icon.
 
-`iconId` can range from 0 to 25. `iconColor` appears to match with blip colors.
+`iconId` can range from 0 to 30 *(ish, some seems to just be misssing / get skipped)*.
+
+![image](https://github.com/ihyajb/fivem-blip-info/assets/66404074/62e8bb47-e3e0-442e-9eb4-4ea3bb3fcfad)
+![image](https://github.com/ihyajb/fivem-blip-info/assets/66404074/c872c331-e066-4c7d-8743-c1ca2bd864c7)
+
+`iconColor` appears to match with blip colors.
 
 **`SetBlipInfo(blip, infoData)`**
 
